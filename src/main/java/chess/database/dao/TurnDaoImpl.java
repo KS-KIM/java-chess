@@ -4,7 +4,7 @@ import chess.database.JdbcTemplate;
 import chess.domain.piece.Color;
 
 public class TurnDaoImpl implements TurnDao {
-	JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 
 	public TurnDaoImpl(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
