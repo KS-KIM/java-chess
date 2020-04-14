@@ -1,4 +1,4 @@
-package chess.database;
+package chess.web.database;
 
 import java.sql.Connection;
 

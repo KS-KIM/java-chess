@@ -7,9 +7,9 @@ import chess.domain.coordinates.Coordinates;
 import chess.domain.coordinates.Direction;
 import chess.exception.PieceMoveFailedException;
 
-public abstract class MovablePiece extends AbstractPiece {
-	public MovablePiece(List<Direction> movableDirections, String name, Color color, double score) {
-		super(movableDirections, name, color, score);
+public class NormalMoveStrategy extends AbstractMoveStrategy {
+	public NormalMoveStrategy(List<Direction> movableDirections) {
+		super(movableDirections);
 	}
 
 	@Override

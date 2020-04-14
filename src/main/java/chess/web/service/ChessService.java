@@ -1,17 +1,17 @@
-package chess.service;
+package chess.web.service;
 
-import chess.database.dao.BoardDao;
-import chess.database.dao.TurnDao;
 import chess.domain.ChessGame;
 import chess.domain.board.Board;
 import chess.domain.board.BoardFactory;
 import chess.domain.coordinates.Coordinates;
 import chess.domain.piece.Color;
-import chess.domain.piece.Piece;
-import chess.dto.BoardResponseDto;
-import chess.dto.MoveRequestDto;
-import chess.dto.MoveResponseDto;
+import chess.domain.piece.PieceType;
 import chess.exception.PieceMoveFailedException;
+import chess.web.database.dao.BoardDao;
+import chess.web.database.dao.TurnDao;
+import chess.web.dto.BoardResponseDto;
+import chess.web.dto.MoveRequestDto;
+import chess.web.dto.MoveResponseDto;
 
 public class ChessService {
 	private final BoardDao boardDao;
@@ -46,7 +46,7 @@ public class ChessService {
 	private void move(MoveRequestDto moveRequestDto, ChessGame chessGame) {
 		Coordinates from = Coordinates.of(moveRequestDto.getFrom());
 		Coordinates to = Coordinates.of(moveRequestDto.getTo());
-		Piece piece = chessGame.move(from, to);
+		PieceType piece = chessGame.move(from, to);
 		boardDao.insertOrUpdatePieceBy(to, piece);
 		boardDao.deletePieceBy(from);
 		turnDao.update(chessGame.getTurn());

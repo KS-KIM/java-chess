@@ -3,15 +3,15 @@ package chess;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
-import chess.controller.ChessGameController;
-import chess.database.DataSource;
-import chess.database.JdbcTemplate;
-import chess.database.MySQLDataSource;
-import chess.database.dao.BoardDao;
-import chess.database.dao.BoardDaoImpl;
-import chess.database.dao.TurnDao;
-import chess.database.dao.TurnDaoImpl;
-import chess.service.ChessService;
+import chess.web.controller.ChessGameController;
+import chess.web.database.DataSource;
+import chess.web.database.JdbcTemplate;
+import chess.web.database.MySQLDataSource;
+import chess.web.database.dao.BoardDao;
+import chess.web.database.dao.BoardDaoImpl;
+import chess.web.database.dao.TurnDao;
+import chess.web.database.dao.TurnDaoImpl;
+import chess.web.service.ChessService;
 import com.google.gson.Gson;
 
 public class WebUIChessApplication {

@@ -1,5 +1,6 @@
 package chess.domain.board;
 
+import static chess.domain.piece.PieceType.WHITE_PAWN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import chess.domain.coordinates.Coordinates;
 import chess.domain.piece.Color;
-import chess.domain.piece.Pawn;
 import chess.exception.PieceMoveFailedException;
 
 class BoardTest {
@@ -31,13 +31,13 @@ class BoardTest {
 
 	@Test
 	void findPieceBy() {
-		assertThat(board.findPieceBy(Coordinates.of("A2")).get()).isInstanceOf(Pawn.class);
+		assertThat(board.findPieceBy(Coordinates.of("A2")).get()).isEqualTo(WHITE_PAWN);
 	}
 
 	@Test
 	void movePiece() {
 		board.movePiece(Coordinates.of("B2"), Coordinates.of("B3"));
-		assertThat(board.findPieceBy(Coordinates.of("B3")).get()).isInstanceOf(Pawn.class);
+		assertThat(board.findPieceBy(Coordinates.of("B3")).get()).isEqualTo(WHITE_PAWN);
 	}
 
 	@Test

@@ -6,15 +6,15 @@ import java.util.stream.Collectors;
 import chess.domain.coordinates.Column;
 import chess.domain.coordinates.Coordinates;
 import chess.domain.piece.Color;
-import chess.domain.piece.Piece;
+import chess.domain.piece.PieceType;
 
 public class ScoreRule {
 	public static final int MIN_COLUMN_PAWN_COUNT = 2;
 	private static final double PAWN_SCORE_DISCOUNT_FACTOR = 0.5;
 
-	private final Map<Coordinates, Piece> pieces;
+	private final Map<Coordinates, PieceType> pieces;
 
-	public ScoreRule(Map<Coordinates, Piece> pieces) {
+	public ScoreRule(Map<Coordinates, PieceType> pieces) {
 		this.pieces = pieces;
 	}
 
@@ -27,7 +27,7 @@ public class ScoreRule {
 	private Map<Color, Double> sumAllScoreOfTeams() {
 		return pieces.values()
 				.stream()
-				.collect(Collectors.toMap(Piece::getColor, Piece::getScore, Double::sum));
+				.collect(Collectors.toMap(PieceType::getColor, PieceType::getScore, Double::sum));
 	}
 
 	private void discountScore(Map<Color, Double> eachScore) {

@@ -1,5 +1,6 @@
 package chess.domain;
 
+import static chess.domain.piece.PieceType.WHITE_PAWN;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,6 @@ import chess.domain.board.Board;
 import chess.domain.board.BoardFactory;
 import chess.domain.coordinates.Coordinates;
 import chess.domain.piece.Color;
-import chess.domain.piece.Pawn;
 
 class ChessGameTest {
 	private ChessGame chessGame;
@@ -28,7 +28,7 @@ class ChessGameTest {
 	void move() {
 		chessGame.move(Coordinates.of("B2"), Coordinates.of("B3"));
 		Board board = chessGame.getBoard();
-		assertThat(board.findPieceBy(Coordinates.of("B3")).get()).isInstanceOf(Pawn.class);
+		assertThat(board.findPieceBy(Coordinates.of("B3")).get()).isEqualTo(WHITE_PAWN);
 	}
 
 	@Test

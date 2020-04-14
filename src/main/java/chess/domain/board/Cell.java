@@ -1,14 +1,13 @@
 package chess.domain.board;
 
 import chess.domain.coordinates.Coordinates;
-import chess.domain.piece.Piece;
-import chess.util.PieceNameConverter;
+import chess.domain.piece.PieceType;
 
 public class Cell {
 	private final Coordinates coordinates;
-	private final Piece piece;
+	private final PieceType piece;
 
-	public Cell(Coordinates coordinates, Piece piece) {
+	public Cell(Coordinates coordinates, PieceType piece) {
 		this.coordinates = coordinates;
 		this.piece = piece;
 	}
@@ -18,6 +17,6 @@ public class Cell {
 	}
 
 	public String getPieceName() {
-		return PieceNameConverter.toPieceType(piece);
+		return piece.name();
 	}
 }

@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 
 import chess.domain.board.Board;
 import chess.domain.coordinates.Coordinates;
-import chess.domain.piece.Piece;
 
 public class ConsoleOutputRenderer {
 
@@ -33,7 +32,7 @@ public class ConsoleOutputRenderer {
 
 	private static String renderPosition(Board board, Coordinates coordinates) {
 		return board.findPieceBy(coordinates)
-				.map(Piece::getName)
+				.map(PieceNameRenderer::renderPieceName)
 				.orElse(EMPTY_POSITION);
 	}
 }

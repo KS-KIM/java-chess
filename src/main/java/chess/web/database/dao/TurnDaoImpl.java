@@ -1,7 +1,7 @@
-package chess.database.dao;
+package chess.web.database.dao;
 
-import chess.database.JdbcTemplate;
 import chess.domain.piece.Color;
+import chess.web.database.JdbcTemplate;
 
 public class TurnDaoImpl implements TurnDao {
 	private final JdbcTemplate jdbcTemplate;

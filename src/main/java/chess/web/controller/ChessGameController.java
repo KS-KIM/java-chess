@@ -1,4 +1,4 @@
-package chess.controller;
+package chess.web.controller;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -6,11 +6,11 @@ import static spark.Spark.post;
 import java.util.HashMap;
 import java.util.Map;
 
-import chess.dto.BoardResponseDto;
-import chess.dto.MoveRequestDto;
-import chess.dto.MoveResponseDto;
 import chess.exception.PieceMoveFailedException;
-import chess.service.ChessService;
+import chess.web.dto.BoardResponseDto;
+import chess.web.dto.MoveRequestDto;
+import chess.web.dto.MoveResponseDto;
+import chess.web.service.ChessService;
 import com.google.gson.Gson;
 import spark.ModelAndView;
 import spark.Request;

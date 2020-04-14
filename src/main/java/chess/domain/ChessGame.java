@@ -6,7 +6,7 @@ import java.util.Objects;
 import chess.domain.board.Board;
 import chess.domain.coordinates.Coordinates;
 import chess.domain.piece.Color;
-import chess.domain.piece.Piece;
+import chess.domain.piece.PieceType;
 import chess.exception.PieceMoveFailedException;
 
 public class ChessGame {
@@ -22,9 +22,9 @@ public class ChessGame {
 		this(board, Color.WHITE);
 	}
 
-	public Piece move(Coordinates from, Coordinates to) {
+	public PieceType move(Coordinates from, Coordinates to) {
 		validateTurn(from);
-		Piece movedPiece = board.movePiece(from, to);
+		PieceType movedPiece = board.movePiece(from, to);
 		nextTurn();
 		return movedPiece;
 	}
@@ -60,7 +60,7 @@ public class ChessGame {
 		return turn;
 	}
 
-	public Map<Coordinates, Piece> getPieces() {
+	public Map<Coordinates, PieceType> getPieces() {
 		return board.getPieces();
 	}
 }

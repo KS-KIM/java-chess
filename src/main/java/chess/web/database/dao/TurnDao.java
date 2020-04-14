@@ -1,4 +1,4 @@
-package chess.database.dao;
+package chess.web.database.dao;
 
 import chess.domain.piece.Color;
 

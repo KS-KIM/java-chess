@@ -12,7 +12,7 @@ import chess.domain.board.BoardFactory;
 import chess.domain.command.Command;
 import chess.view.InputView;
 
-public class Application {
+public class ConsoleUIChessApplication {
 	private static final int EXIT_SUCCESSFULLY = 0;
 
 	public static void main(String[] args) {

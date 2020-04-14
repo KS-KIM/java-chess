@@ -7,9 +7,9 @@ import chess.domain.coordinates.Coordinates;
 import chess.domain.coordinates.Direction;
 import chess.exception.PieceMoveFailedException;
 
-public abstract class StretchablePiece extends AbstractPiece {
-	public StretchablePiece(List<Direction> movableDirections, String name, Color color, double score) {
-		super(movableDirections, name, color, score);
+public class StretchableMoveStrategy extends AbstractMoveStrategy {
+	public StretchableMoveStrategy(List<Direction> movableDirections) {
+		super(movableDirections);
 	}
 
 	@Override
@@ -17,17 +17,17 @@ public abstract class StretchablePiece extends AbstractPiece {
 		Direction direction = Direction.of(from, to);
 		validateDirection(direction);
 
-		List<Coordinates> positions = new ArrayList<>();
+		List<Coordinates> movableCoordinates = new ArrayList<>();
 		while (!from.equals(to)) {
 			from = from.next(direction);
-			positions.add(from);
+			movableCoordinates.add(from);
 		}
-		return positions;
+		return movableCoordinates;
 	}
 
 	private void validateDirection(Direction direction) {
 		if (!movableDirections.contains(direction)) {
-			throw new PieceMoveFailedException("이동할 수 없는 방향입니다.");
+			throw new PieceMoveFailedException("움직일 수 없는 방향입니다.");
 		}
 	}
 }

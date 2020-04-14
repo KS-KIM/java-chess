@@ -1,16 +1,15 @@
-package chess.dto;
+package chess.web.dto;
 
 import chess.domain.coordinates.Coordinates;
-import chess.domain.piece.Piece;
-import chess.util.PieceNameConverter;
+import chess.domain.piece.PieceType;
 
 public class PieceResponseDto {
 	private String position;
 	private String pieceType;
 
-	public PieceResponseDto(Coordinates coordinates, Piece piece) {
+	public PieceResponseDto(Coordinates coordinates, PieceType piece) {
 		this.position = coordinates.getName();
-		this.pieceType = PieceNameConverter.toPieceType(piece);
+		this.pieceType = piece.name();
 	}
 
 	public String getPosition() {

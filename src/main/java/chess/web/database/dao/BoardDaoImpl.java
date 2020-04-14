@@ -1,4 +1,4 @@
-package chess.database.dao;
+package chess.web.database.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -6,13 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import chess.database.JdbcTemplate;
 import chess.domain.board.Board;
 import chess.domain.board.Cell;
 import chess.domain.coordinates.Coordinates;
-import chess.domain.piece.Piece;
-import chess.domain.piece.PieceFactory;
-import chess.util.PieceNameConverter;
+import chess.domain.piece.PieceType;
+import chess.web.database.JdbcTemplate;
 
 public class BoardDaoImpl implements BoardDao {
 	private final JdbcTemplate jdbcTemplate;
@@ -35,10 +33,10 @@ public class BoardDaoImpl implements BoardDao {
 	public Board getBoard() {
 		String query = "SELECT * FROM board";
 		return jdbcTemplate.query(query, resultSet -> {
-			Map<Coordinates, Piece> pieces = new HashMap<>();
+			Map<Coordinates, PieceType> pieces = new HashMap<>();
 			while (resultSet.next()) {
 				Coordinates coordinates = Coordinates.of(resultSet.getString(1));
-				Piece piece = PieceFactory.createByName(resultSet.getString(2));
+				PieceType piece = PieceType.of(resultSet.getString(2));
 				pieces.put(coordinates, piece);
 			}
 			return new Board(pieces);
@@ -61,20 +59,20 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public Piece findPieceBy(Coordinates coordinates) {
+	public PieceType findPieceBy(Coordinates coordinates) {
 		String query = "SELECT * FROM board WHERE position = (?)";
 		return jdbcTemplate.query(query,
-				resultSet -> PieceFactory.createByName(resultSet.getString(2)),
+				resultSet -> PieceType.of(resultSet.getString(2)),
 				preparedStatement -> preparedStatement.setString(1, coordinates.getName()));
 	}
 
 	@Override
-	public void insertOrUpdatePieceBy(Coordinates coordinates, Piece piece) {
+	public void insertOrUpdatePieceBy(Coordinates coordinates, PieceType piece) {
 		String query = "INSERT INTO board VALUES(?, ?) ON DUPLICATE KEY UPDATE piece_type=(?)";
 		jdbcTemplate.update(query, preparedStatement -> {
 			preparedStatement.setString(1, coordinates.getName());
-			preparedStatement.setString(2, PieceNameConverter.toPieceType(piece));
-			preparedStatement.setString(3, PieceNameConverter.toPieceType(piece));
+			preparedStatement.setString(2, piece.name());
+			preparedStatement.setString(3, piece.name());
 		});
 	}
 
