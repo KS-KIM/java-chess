@@ -17,7 +17,9 @@ public class JdbcTemplate {
 			 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 			preparedStatementSetter.setArgument(preparedStatement);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			return rowMapper.mapRow(resultSet);
+			T result = rowMapper.mapRow(resultSet);
+			resultSet.close();
+			return result;
 		} catch (SQLException exception) {
 			System.err.println(exception.getMessage());
 		}
