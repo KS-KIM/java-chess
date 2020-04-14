@@ -27,42 +27,40 @@ public class Board {
 	}
 
 	public PieceType movePiece(Coordinates from, Coordinates to) {
-		validatePieceExist(from);
-		validateTargetIsNotAlly(from, to);
-		validateRouteHasObstacle(from, to);
+		validateMovability(from, to);
 		PieceType target = pieces.remove(from);
 		pieces.put(to, target);
 		return target;
 	}
 
-	private void validatePieceExist(Coordinates from) {
-		if (isEmpty(from)) {
-			throw new PieceMoveFailedException("이동할 말이 존재하지 않습니다");
-		}
+	private void validateMovability(Coordinates from, Coordinates to) {
+		PieceType piece = findPieceBy(from).orElseThrow(() -> new PieceMoveFailedException("이동할 말이 존재하지 않습니다"));
+		validateTargetIsNotAlly(piece, to);
+		validateRouteHasObstacle(piece, from, to);
 	}
 
-	private void validateRouteHasObstacle(Coordinates from, Coordinates to) {
-		if (canNotReachable(from, to)) {
+	private void validateRouteHasObstacle(PieceType piece, Coordinates from, Coordinates to) {
+		if (canNotReachable(piece, from, to)) {
 			throw new PieceMoveFailedException("목적지까지 이동할 수 없습니다.");
 		}
 	}
 
-	private void validateTargetIsNotAlly(Coordinates from, Coordinates to) {
-		if (findPieceBy(to).isPresent() && isAlly(from, to)) {
-			throw new PieceMoveFailedException("도착점에 같은 팀의 piece가 있습니다.");
+	private void validateTargetIsNotAlly(PieceType piece, Coordinates coordinates) {
+		if (isAlly(piece, coordinates)) {
+			throw new PieceMoveFailedException("이동하려는 위치에 아군이 있습니다.");
 		}
 	}
 
-	private boolean canNotReachable(Coordinates from, Coordinates to) {
-		return findPieceBy(from)
-				.map(piece -> piece.findMovableCoordinates(from, to))
-				.filter(movableCoordinates -> !movableCoordinates.contains(to) || hasObstacle(movableCoordinates, to))
+	private boolean isAlly(PieceType piece, Coordinates coordinates) {
+		return findPieceBy(coordinates)
+				.map(piece::isAlly)
 				.isPresent();
 	}
 
-	private boolean hasObstacle(List<Coordinates> movableCoordinates, Coordinates destination) {
-		return movableCoordinates.stream()
-				.anyMatch(position -> isObstacle(position) && !position.equals(destination));
+	private boolean canNotReachable(PieceType piece, Coordinates from, Coordinates to) {
+		return piece.findMovableCoordinates(from, to)
+				.stream()
+				.anyMatch(coordinates -> !coordinates.equals(to) || isObstacle(to));
 	}
 
 	public Optional<PieceType> findPieceBy(Coordinates coordinates) {
@@ -77,18 +75,6 @@ public class Board {
 
 	private boolean isKingOf(PieceType piece, Color color) {
 		return piece.isTeamOf(color) && piece.isKing();
-	}
-
-	private boolean isAlly(Coordinates from, Coordinates to) {
-		PieceType source = findPieceBy(from)
-				.orElseThrow(() -> new IllegalArgumentException("from 좌표에 해당하는 piece가 존재하지 않습니다."));
-		PieceType target = findPieceBy(to)
-				.orElseThrow(() -> new IllegalArgumentException("to 좌표에 해당하는 piece가 존재하지 않습니다."));
-		return source.isAlly(target);
-	}
-
-	private boolean isEmpty(Coordinates coordinates) {
-		return Objects.isNull(pieces.get(coordinates));
 	}
 
 	private boolean isObstacle(Coordinates coordinates) {
