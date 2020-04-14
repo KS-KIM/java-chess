@@ -20,17 +20,27 @@ public class Board {
 		this.pieces = pieces;
 	}
 
-	private void validateBoard(Map<Coordinates, PieceType> pieces) {
-		if (Objects.isNull(pieces)) {
-			throw new IllegalArgumentException("체스판이 존재하지 않습니다.");
-		}
-	}
-
 	public PieceType movePiece(Coordinates from, Coordinates to) {
 		validateMovability(from, to);
 		PieceType target = pieces.remove(from);
 		pieces.put(to, target);
 		return target;
+	}
+
+	public Optional<PieceType> findPieceBy(Coordinates coordinates) {
+		return Optional.ofNullable(pieces.get(coordinates));
+	}
+
+	public boolean isKingAliveOf(Color color) {
+		return pieces.values()
+				.stream()
+				.anyMatch(piece -> isKingOf(piece, color));
+	}
+
+	private void validateBoard(Map<Coordinates, PieceType> pieces) {
+		if (Objects.isNull(pieces)) {
+			throw new IllegalArgumentException("체스판이 존재하지 않습니다.");
+		}
 	}
 
 	private void validateMovability(Coordinates from, Coordinates to) {
@@ -61,16 +71,6 @@ public class Board {
 		return piece.findMovableCoordinates(from, to)
 				.stream()
 				.anyMatch(coordinates -> !coordinates.equals(to) || isObstacle(to));
-	}
-
-	public Optional<PieceType> findPieceBy(Coordinates coordinates) {
-		return Optional.ofNullable(pieces.get(coordinates));
-	}
-
-	public boolean isKingAliveOf(Color color) {
-		return pieces.values()
-				.stream()
-				.anyMatch(piece -> isKingOf(piece, color));
 	}
 
 	private boolean isKingOf(PieceType piece, Color color) {
