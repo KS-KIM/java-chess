@@ -67,9 +67,9 @@ public class BoardFactory {
 	}
 
 	private static void initializeBlackPawn(Map<Coordinates, PieceType> pieces) {
-		Map<Coordinates, PieceType> whitePawns = Stream.of("A", "B", "C", "D", "E", "F", "G", "H")
+		Map<Coordinates, PieceType> blackPawns = Stream.of("A", "B", "C", "D", "E", "F", "G", "H")
 				.map(column -> Coordinates.of(column + "7"))
 				.collect(toMap(coordinates -> coordinates, coordinates -> BLACK_PAWN));
-		pieces.putAll(whitePawns);
+		pieces.putAll(blackPawns);
 	}
 }

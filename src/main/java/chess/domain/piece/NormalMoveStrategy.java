@@ -15,9 +15,10 @@ public class NormalMoveStrategy extends AbstractMoveStrategy {
 	@Override
 	public List<Coordinates> findMovableCoordinates(Coordinates from, Coordinates to) {
 		Direction direction = Direction.of(from, to);
-		if (!movableDirections.contains(direction)) {
+		from = from.next(direction);
+		if (!movableDirections.contains(direction) || !from.equals(to)) {
 			throw new PieceMoveFailedException("이동할 수 없는 위치입니다.");
 		}
-		return Collections.singletonList(from.next(direction));
+		return Collections.singletonList(from);
 	}
 }

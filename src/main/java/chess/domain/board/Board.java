@@ -49,12 +49,6 @@ public class Board {
 		validateRouteHasObstacle(piece, from, to);
 	}
 
-	private void validateRouteHasObstacle(PieceType piece, Coordinates from, Coordinates to) {
-		if (canNotReachable(piece, from, to)) {
-			throw new PieceMoveFailedException("목적지까지 이동할 수 없습니다.");
-		}
-	}
-
 	private void validateTargetIsNotAlly(PieceType piece, Coordinates coordinates) {
 		if (isAlly(piece, coordinates)) {
 			throw new PieceMoveFailedException("이동하려는 위치에 아군이 있습니다.");
@@ -63,14 +57,20 @@ public class Board {
 
 	private boolean isAlly(PieceType piece, Coordinates coordinates) {
 		return findPieceBy(coordinates)
-				.map(piece::isAlly)
+				.filter(piece::isAlly)
 				.isPresent();
+	}
+
+	private void validateRouteHasObstacle(PieceType piece, Coordinates from, Coordinates to) {
+		if (canNotReachable(piece, from, to)) {
+			throw new PieceMoveFailedException("경로상에 장애물이 있습니다.");
+		}
 	}
 
 	private boolean canNotReachable(PieceType piece, Coordinates from, Coordinates to) {
 		return piece.findMovableCoordinates(from, to)
 				.stream()
-				.anyMatch(coordinates -> !coordinates.equals(to) || isObstacle(to));
+				.anyMatch(coordinates -> !coordinates.equals(to) && isObstacle(coordinates));
 	}
 
 	private boolean isKingOf(PieceType piece, Color color) {
